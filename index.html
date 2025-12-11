@@ -3,67 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Form Pendaftaran + QR Code</title>
+  <title>Form Pendaftaran + QR</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f8f9fa;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-    }
-    .container {
-      width: 100%;
-      max-width: 480px;
-      background: #ffffff;
-      padding: 24px;
-      border-radius: 12px;
-      box-shadow: 0 0 12px rgba(0,0,0,0.1);
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 12px;
-    }
-    input, select, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 6px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 15px;
-    }
-    button {
-      width: 100%;
-      margin-top: 20px;
-      padding: 12px;
-      background: #1a73e8;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #0c57c7;
-    }
-    #result {
-      margin-top: 25px;
-      text-align: center;
-      display: none;
-    }
+    body { font-family: Arial; background:#f8f9fa; padding:20px; display:flex; justify-content:center; }
+    .container { width:100%; max-width:480px; background:#fff; padding:24px; border-radius:12px; box-shadow:0 0 12px rgba(0,0,0,0.1); }
+    input,select,textarea { width:100%; padding:10px; margin-top:6px; border-radius:6px; border:1px solid #ccc; }
+    button { width:100%; padding:12px; margin-top:20px; background:#1a73e8; color:#fff; border:none; border-radius:6px; cursor:pointer; }
+    #result { display:none; margin-top:25px; text-align:center; }
   </style>
 </head>
 <body>
+
   <div class="container">
     <h2>Form Pendaftaran</h2>
 
-    <form id="myForm" onsubmit="generateQR(); return false;">
+    <form id="myForm" onsubmit="submitData(); return false;">
+
       <label>Nama</label>
       <input type="text" id="nama" required />
 
@@ -74,7 +30,7 @@
         <option>Perempuan</option>
       </select>
 
-      <label>No. HP</label>
+      <label>No HP</label>
       <input type="text" id="hp" required />
 
       <label>Alamat</label>
@@ -84,32 +40,42 @@
     </form>
 
     <div id="result">
-      <h3>QR Code Anda</h3>
+      <h3>QR Anda</h3>
       <div id="qrcode"></div>
-      <p id="msg"></p>
+      <p>Data berhasil dikirim & tersimpan di Google Sheets.</p>
     </div>
   </div>
 
   <script>
-    function generateQR() {
+    const scriptURL = "https://script.google.com/macros/s/AKfycbzaqH2LkENM0KfJqVxaYpl7XY8fXMS7qbSmi_twzjlcg40d1kLRIKazHCQdPWEp1OgWMw/exec";
+
+    function submitData() {
       let nama = document.getElementById("nama").value;
       let jk = document.getElementById("jk").value;
       let hp = document.getElementById("hp").value;
       let alamat = document.getElementById("alamat").value;
 
-      let data = `Nama: ${nama}\nJenis Kelamin: ${jk}\nHP: ${hp}\nAlamat: ${alamat}`;
+      fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify({ nama, jk, hp, alamat })
+      });
+
+      generateQR(nama, jk, hp, alamat);
+    }
+
+    function generateQR(nama, jk, hp, alamat) {
+      let qrData = `Nama: ${nama}\nJK: ${jk}\nHP: ${hp}\nAlamat: ${alamat}`;
 
       document.getElementById("qrcode").innerHTML = "";
-
       new QRCode(document.getElementById("qrcode"), {
-        text: data,
+        text: qrData,
         width: 200,
         height: 200
       });
 
       document.getElementById("result").style.display = "block";
-      document.getElementById("msg").innerText = "Silakan screenshot atau simpan QR Code ini.";
     }
   </script>
+
 </body>
 </html>
