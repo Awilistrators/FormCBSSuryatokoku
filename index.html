@@ -188,19 +188,19 @@
     const modal = document.getElementById('modal');
     const joinYes = document.getElementById('joinYes');
     const joinNo = document.getElementById('joinNo');
-    const modalClose = document.getElementById('modalClose');
-    const joinForm = document.getElementById('joinForm');
-    const noJoinArea = document.getElementById('noJoinArea');
-    const btnRegisterJoin = document.getElementById('btnRegisterJoin');
-    const btnRegisterNoJoin = document.getElementById('btnRegisterNoJoin');
-    const afterArea = document.getElementById('afterArea');
-    const qrcodeContainer = document.getElementById('qrcode');
-    const confirmText = document.getElementById('confirmText');
 
     let currentFormData = null;
 
-    submitBtn.addEventListener('click', ()=>{
+    submitBtn.addEventListener('click', function(e){
+      e.preventDefault();
       const form = document.getElementById('mainForm');
+      if(!form.checkValidity()){
+        form.reportValidity();
+        return;
+      }
+      currentFormData = collectBaseForm();
+      modal.style.display = 'flex';
+    });
       if(!form.reportValidity()) return;
       currentFormData = collectBaseForm();
       modal.style.display = 'flex';
@@ -216,19 +216,21 @@
 
     modalClose.addEventListener('click', ()=>{ modal.style.display='none'; });
 
-    joinYes.addEventListener('click', async ()=>{
+    joinYes.addEventListener('click', function(){
       if(!currentFormData) return;
       currentFormData.joinSuryafluencers = 'Ya';
       modal.style.display = 'none';
-      sendAndShowResult(currentFormData);
+      sendAndRedirect(currentFormData);
+    });
     });
       noJoinArea.classList.add('hidden');
     });
-    joinNo.addEventListener('click', async ()=>{
+    joinNo.addEventListener('click', function(){
       if(!currentFormData) return;
       currentFormData.joinSuryafluencers = 'Tidak';
       modal.style.display = 'none';
-      sendAndShowResult(currentFormData);
+      sendAndRedirect(currentFormData);
+    });
     });
       joinForm.classList.add('hidden');
     });
@@ -263,7 +265,7 @@
       };
     }
 
-    function sendAndShowResult(data){
+    function sendAndRedirect(data){
       // Kirim data ke Google Sheet (tidak blocking UI)
       if(WEBHOOK_URL && WEBHOOK_URL.includes('script.google.com')){
         fetch(WEBHOOK_URL,{
@@ -274,22 +276,23 @@
       }
 
       const qrText = (data.nama || '') + ' | ' + (data.whatsapp || '');
-      showSuccessPage(qrText);
+      // Simpan QR text ke localStorage lalu redirect
+      localStorage.setItem('QR_TEXT', qrText);
+      window.location.href = window.location.pathname + '#success';
     }
 
-    function showSuccessPage(qrText){
-      // Replace the entire body with a minimal success page (no registration form)
+    // Render halaman sukses jika hash #success
+    if(window.location.hash === '#success'){
+      const qrText = localStorage.getItem('QR_TEXT') || '';
       document.body.innerHTML = `
         <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(120deg,var(--bg1),var(--bg2));padding:24px">
           <div style="background:#fff;padding:28px;border-radius:12px;text-align:center;max-width:520px;width:100%">
-            <h2 style="margin:0 0 12px 0;font-family:Montserrat, sans-serif;">Pendaftaran Berhasil</h2>
-            <p style="margin:0 0 18px 0;color:#333;">Tunjukan QR ini saat Verifikasi/ Masuk acara dengan cara Screenshoot QR code ini atau bisa langsung tunjukan kepada staff.</p>
+            <h2>Pendaftaran Berhasil</h2>
+            <p>Tunjukan QR ini saat Verifikasi/ Masuk acara dengan cara Screenshoot QR code ini atau bisa langsung tunjukan kepada staff.</p>
             <div id="finalQR" style="display:flex;justify-content:center"></div>
           </div>
         </div>`;
-      // render QR
-      const container = document.getElementById('finalQR');
-      new QRCode(container, {text:qrText, width:260, height:260});
+      new QRCode(document.getElementById('finalQR'), {text: qrText, width:260, height:260});
     }
       }else{
         // No webhook configured; fallback to CSV download so user still has the data
