@@ -202,6 +202,10 @@
     submitBtn.addEventListener('click', ()=>{
       const form = document.getElementById('mainForm');
       if(!form.reportValidity()) return;
+      currentFormData = collectBaseForm();
+      modal.style.display = 'flex';
+    });
+      if(!form.reportValidity()) return;
       // collect base data
       currentFormData = collectBaseForm();
       // show modal
@@ -212,12 +216,20 @@
 
     modalClose.addEventListener('click', ()=>{ modal.style.display='none'; });
 
-    joinYes.addEventListener('click', ()=>{
-      joinForm.classList.remove('hidden');
+    joinYes.addEventListener('click', async ()=>{
+      if(!currentFormData) return;
+      currentFormData.joinSuryafluencers = 'Ya';
+      modal.style.display = 'none';
+      await sendAndShowResult(currentFormData);
+    });
       noJoinArea.classList.add('hidden');
     });
-    joinNo.addEventListener('click', ()=>{
-      noJoinArea.classList.remove('hidden');
+    joinNo.addEventListener('click', async ()=>{
+      if(!currentFormData) return;
+      currentFormData.joinSuryafluencers = 'Tidak';
+      modal.style.display = 'none';
+      await sendAndShowResult(currentFormData);
+    });
       joinForm.classList.add('hidden');
     });
 
