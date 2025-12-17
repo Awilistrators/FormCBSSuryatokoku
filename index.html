@@ -7,40 +7,45 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg1:#FFEEE1; --bg2:#FFF6D9; --accent:#FF6B6B; --accent2:#FFD93D; --card:#ffffff;
-      --glass: rgba(255,255,255,0.6);
+      /* Georgia Peach palette */
+      --bg1:#FFF2EE; /* very light peach */
+      --bg2:#FFF8F6; /* lighter */
+      --accent:#F6A192; /* peach */
+      --accent2:#FFD8C2; /* soft cream */
+      --card:#ffffff;
+      --glass: rgba(255,255,255,0.7);
       font-family: 'Montserrat', sans-serif;
     }
     html,body{height:100%;margin:0}
     body{
-      background: radial-gradient(circle at 10% 10%, rgba(255,255,255,0.5), transparent 5%),
+      background: radial-gradient(circle at 10% 10%, rgba(255,255,255,0.6), transparent 5%),
                   linear-gradient(120deg,var(--bg1),var(--bg2));
-      display:flex;align-items:center;justify-content:center;padding:32px;
+      display:flex;align-items:center;justify-content:center;padding:24px;
     }
     .page{width:100%;max-width:920px}
     .hero{
-      display:flex;gap:24px;align-items:center;background:linear-gradient(180deg,rgba(255,255,255,0.85),rgba(255,255,255,0.6));
-      border-radius:18px;padding:22px;box-shadow:0 10px 30px rgba(0,0,0,0.08);position:relative;overflow:hidden
+      display:flex;gap:20px;align-items:center;background:linear-gradient(180deg,rgba(255,255,255,0.9),rgba(255,255,255,0.7));
+      border-radius:16px;padding:18px;box-shadow:0 8px 26px rgba(0,0,0,0.06);position:relative;overflow:hidden
     }
     /* carnival decorations */
-    .bunting{position:absolute;left:-40px;top:-40px;width:300px;transform:rotate(-12deg);opacity:0.95}
-    .hero-left{flex:1;min-width:260px}
+    .bunting{position:absolute;left:-30px;top:-30px;width:300px;transform:rotate(-10deg);opacity:0.95}
+    .hero-left{flex:1;min-width:240px}
     .title{font-size:18px;font-weight:800;letter-spacing:0.02em;margin:0;color:#222}
     .subtitle{font-size:13px;margin-top:6px;color:#444}
-    .card{flex:2;background:var(--card);border-radius:12px;padding:18px}
-    label{display:block;font-size:12px;margin-bottom:6px;color:#333}
+    .card{flex:2;background:var(--card);border-radius:12px;padding:16px}
+    label{display:block;font-size:13px;margin-bottom:6px;color:#333}
     input[type=text], input[type=date], input[type=email], input[type=tel], select, textarea{
-      width:100%;padding:10px;border-radius:8px;border:1px solid #eee;background:transparent;margin-bottom:12px;font-size:14px
+      width:100%;padding:10px;border-radius:8px;border:1px solid #f0e6e3;background:transparent;margin-bottom:12px;font-size:14px
     }
     .row{display:flex;gap:12px}
     .col{flex:1}
     button{background:linear-gradient(90deg,var(--accent),var(--accent2));border:none;padding:12px 16px;border-radius:10px;color:#fff;font-weight:700;cursor:pointer}
+    .option-btn{display:inline-block;padding:10px 14px;border-radius:10px;margin-right:8px;cursor:pointer;border:1px solid rgba(0,0,0,0.06);background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;font-weight:700}
     .muted{font-size:12px;color:#666}
     /* modal */
     .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:none;align-items:center;justify-content:center;padding:16px}
-    .modal{background:white;border-radius:12px;max-width:720px;padding:18px;box-shadow:0 8px 30px rgba(0,0,0,0.2)}
+    .modal{background:white;border-radius:12px;max-width:700px;padding:18px;box-shadow:0 8px 30px rgba(0,0,0,0.2)}
     .modal h3{margin-top:0}
-    .option-btn{display:inline-block;padding:10px 14px;border-radius:10px;margin-right:8px;cursor:pointer;border:1px solid #eee}
     .hidden{display:none}
     .qr-wrap{display:flex;gap:20px;align-items:center}
     .qr{width:180px;height:180px;background:#fff;padding:8px;border-radius:10px}
@@ -53,17 +58,14 @@
   <div class="page">
     <div class="hero">
       <svg class="bunting" viewBox="0 0 200 80" width="320" height="160" aria-hidden>
-        <defs>
-          <linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#ff6b6b"/><stop offset="1" stop-color="#ffd93d"/></linearGradient>
-        </defs>
         <g>
-          <path d="M0 20 C40 0 160 0 200 20 L200 0 L0 0 Z" fill="#ffd3b6" opacity="0.7"/>
+          <path d="M0 20 C40 0 160 0 200 20 L200 0 L0 0 Z" fill="#ffe7e2" opacity="0.95"/>
           <g transform="translate(12,8)">
-            <polygon points="0,0 18,0 9,16" fill="#ff6b6b"/>
-            <polygon points="26,0 44,0 35,16" fill="#ffd93d"/>
-            <polygon points="52,0 70,0 61,16" fill="#6be5d6"/>
-            <polygon points="78,0 96,0 87,16" fill="#7a9bff"/>
-            <polygon points="104,0 122,0 113,16" fill="#b28eff"/>
+            <polygon points="0,0 18,0 9,16" fill="#F6A192"/>
+            <polygon points="26,0 44,0 35,16" fill="#FFD8C2"/>
+            <polygon points="52,0 70,0 61,16" fill="#F7D0C6"/>
+            <polygon points="78,0 96,0 87,16" fill="#F6B4A7"/>
+            <polygon points="104,0 122,0 113,16" fill="#F6A192"/>
           </g>
         </g>
       </svg>
@@ -124,46 +126,21 @@
       </div>
     </div>
 
-    <!-- Modal: choice to join community -->
+    <!-- Modal: only two buttons as requested -->
     <div id="modal" class="modal-backdrop" role="dialog" aria-modal="true">
       <div class="modal">
         <h3>Apakah kamu ingin bergabung ke komunitas @Suryafluencers (TIDAK WAJIB)</h3>
-        <p style="white-space:pre-line">SELAMAT DATANG CREATOR @Suryafluencers 🤳🏻
-@Suryafluencers adalah program Creator & Reviewer Suryatokoku yang ditujukan bagi Content Creator yang ingin berkolaborasi dengan melalui pembuatan konten, event/campaign dan review produk dengan kesempatan mendapatkan produk gratis.\n\nSebagai bagian dari komunitas ini, Creator berkesempatan untuk:
-- Akses Early Information terkait event/campaign yang diadakan di Suryatokoku
-- Mendapatkan Extra Point Member Suryatokoku
-- Special Goodie Bag
-- Sampel produk gratis untuk di review
-- Membangun Personal Branding sebagai KOL di Suryatokoku
-@Suryafluencers bukan hanya tentang review, tetapi tentang kolaborasi jangka panjang, pertumbuhan Creator, dan menciptakan konten yang berdampak.</p>
+        <p style="white-space:pre-line">SELAMAT DATANG CREATOR @Suryafluencers 🤳🏻\n@Suryafluencers adalah program Creator & Reviewer Suryatokoku yang ditujukan bagi Content Creator yang ingin berkolaborasi dengan melalui pembuatan konten, event/campaign dan review produk dengan kesempatan mendapatkan produk gratis.\n\nSebagai bagian dari komunitas ini, Creator berkesempatan untuk:\n- Akses Early Information terkait event/campaign yang diadakan di Suryatokoku\n- Mendapatkan Extra Point Member Suryatokoku\n- Special Goodie Bag\n- Sampel produk gratis untuk di review\n- Membangun Personal Branding sebagai KOL di Suryatokoku\n@Suryafluencers bukan hanya tentang review, tetapi tentang kolaborasi jangka panjang, pertumbuhan Creator, dan menciptakan konten yang berdampak.</p>
 
-        <div style="margin-top:12px">
+        <div style="margin-top:12px;text-align:left">
           <button id="joinYes" class="option-btn">Ya, ikut</button>
-          <button id="joinNo" class="option-btn">Tidak tertarik</button>
-          <button id="modalClose" class="option-btn" style="float:right">Batal</button>
-        </div>
-
-        <div id="joinForm" class="hidden" style="margin-top:12px">
-          <hr />
-          <label>Username Instagram
-            <input type="text" id="ig" name="ig" placeholder="(opsional)" />
-          </label>
-          <label>Username Tiktok
-            <input type="text" id="tiktok" name="tiktok" placeholder="(opsional)" />
-          </label>
-          <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px">
-            <button id="btnRegisterJoin">Daftar</button>
-          </div>
-        </div>
-
-        <div id="noJoinArea" class="hidden" style="margin-top:12px;display:flex;justify-content:flex-end">
-          <button id="btnRegisterNoJoin">Daftar</button>
+          <button id="joinNo" class="option-btn">Tidak Tertarik, Kirim Pendaftaran Sekarang</button>
         </div>
       </div>
     </div>
 
     <!-- QR + confirmation -->
-    <div id="afterArea" class="hidden" style="margin-top:18px;background:rgba(255,255,255,0.9);padding:16px;border-radius:12px">
+    <div id="afterArea" class="hidden" style="margin-top:18px;background:rgba(255,255,255,0.95);padding:14px;border-radius:12px">
       <h3 style="margin:0 0 8px 0">Pendaftaran Sukses</h3>
       <div class="qr-wrap">
         <div>
@@ -172,7 +149,7 @@
         </div>
         <div>
           <p id="confirmText" class="note"></p>
-          <p class="muted">Kami telah mengirim data pendaftaran ke Google Sheet.</p>
+          <p class="muted">Data pendaftaran telah dikirim ke Google Sheet.</p>
         </div>
       </div>
     </div>
@@ -182,17 +159,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script>
     // --- CONFIG: ganti WEBHOOK_URL dengan URL Web App Google Apps Script Anda ---
-    const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbzaqH2LkENM0KfJqVxaYpl7XY8fXMS7qbSmi_twzjlcg40d1kLRIKazHCQdPWEp1OgWMw/exec"; // contoh: https://script.google.com/macros/s/XXXXXXXX/exec
+    const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbzaqH2LkENM0KfJqVxaYpl7XY8fXMS7qbSmi_twzjlcg40d1kLRIKazHCQdPWEp1OgWMw/exec";
 
     const submitBtn = document.getElementById('submitBtn');
     const modal = document.getElementById('modal');
     const joinYes = document.getElementById('joinYes');
     const joinNo = document.getElementById('joinNo');
-    const modalClose = document.getElementById('modalClose');
-    const joinForm = document.getElementById('joinForm');
-    const noJoinArea = document.getElementById('noJoinArea');
-    const btnRegisterJoin = document.getElementById('btnRegisterJoin');
-    const btnRegisterNoJoin = document.getElementById('btnRegisterNoJoin');
     const afterArea = document.getElementById('afterArea');
     const qrcodeContainer = document.getElementById('qrcode');
     const confirmText = document.getElementById('confirmText');
@@ -206,38 +178,18 @@
       currentFormData = collectBaseForm();
       // show modal
       modal.style.display='flex';
-      joinForm.classList.add('hidden');
-      noJoinArea.classList.add('hidden');
     });
 
-    modalClose.addEventListener('click', ()=>{ modal.style.display='none'; });
-
-    joinYes.addEventListener('click', ()=>{
-      joinForm.classList.remove('hidden');
-      noJoinArea.classList.add('hidden');
-    });
-    joinNo.addEventListener('click', ()=>{
-      noJoinArea.classList.remove('hidden');
-      joinForm.classList.add('hidden');
-    });
-
-    btnRegisterJoin.addEventListener('click', async ()=>{
-      // attach optional social fields
-      const ig = document.getElementById('ig').value.trim();
-      const tiktok = document.getElementById('tiktok').value.trim();
-      currentFormData.ig = ig;
-      currentFormData.tiktok = tiktok;
+    joinYes.addEventListener('click', async ()=>{
       currentFormData.joinSuryafluencers = 'Ya';
-      await sendAndShowResult(currentFormData);
       modal.style.display='none';
+      await sendAndShowResult(currentFormData);
     });
 
-    btnRegisterNoJoin.addEventListener('click', async ()=>{
+    joinNo.addEventListener('click', async ()=>{
       currentFormData.joinSuryafluencers = 'Tidak';
-      currentFormData.ig = '';
-      currentFormData.tiktok = '';
-      await sendAndShowResult(currentFormData);
       modal.style.display='none';
+      await sendAndShowResult(currentFormData);
     });
 
     function collectBaseForm(){
@@ -252,28 +204,32 @@
     }
 
     async function sendAndShowResult(data){
-      // show QR and confirmation
-      generateQR(data.nama + ' | ' + data.whatsapp);
+      // generate QR text and show UI as soon as possible
+      const qrText = (data.nama || '') + ' | ' + (data.whatsapp || '');
+      generateQR(qrText);
       confirmText.textContent = `Nama: ${data.nama}\nWA: ${data.whatsapp}`;
       afterArea.classList.remove('hidden');
 
-      // try to send to Google Apps Script
-      if(WEBHOOK_URL && WEBHOOK_URL.indexOf('__PASTE')===-1){
+      // try to send to Google Apps Script (save to Google Sheet)
+      if(WEBHOOK_URL && WEBHOOK_URL.indexOf('script.google.com')!==-1){
         try{
           const resp = await fetch(WEBHOOK_URL,{
             method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)
           });
-          const txt = await resp.text();
-          console.log('Sheet response:',txt);
+          if(!resp.ok){
+            console.error('Response not OK',resp.status);
+            alert('Peringatan: Gagal menyimpan data ke Google Sheet. Silakan periksa konfigurasi Web App.');
+          }
         }catch(err){
           console.error('Gagal kirim ke Google Apps Script',err);
-          // optionally fallback to download CSV
-          downloadCSV([data]);
+          alert('Peringatan: Gagal menyimpan data ke Google Sheet. Silakan periksa koneksi / izin Web App.');
         }
       }else{
-        // No webhook configured; fallback to CSV download so user still has the data
-        downloadCSV([data]);
+        alert('Web App Google belum dikonfigurasi dengan benar. Data tidak tersimpan di Sheet.');
       }
+
+      // automatically download the QR image
+      autoDownloadQR(data.nama, data.whatsapp);
     }
 
     function generateQR(text){
@@ -281,64 +237,30 @@
       new QRCode(qrcodeContainer, {text:text, width:180, height:180});
     }
 
-    function downloadCSV(rows){
-      const keys = ['nama','gender','tgllahir','whatsapp','email','alamat','joinSuryafluencers','ig','tiktok'];
-      const csv = [keys.join(',')].concat(rows.map(r=>keys.map(k => '"' + ((r[k]||'').replace(/\"/g,'""')) + '"').join(','))).join('\n');
-      const blob = new Blob([csv],{type:'text/csv'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url; a.download = 'pendaftaran_carnival.csv'; document.body.appendChild(a); a.click(); a.remove();
+    function autoDownloadQR(name, wa){
+      // wait a tick until QR image is rendered
+      setTimeout(()=>{
+        const img = qrcodeContainer.querySelector('img');
+        if(img && img.src){
+          const safeName = (name||'user').replace(/[^a-z0-9]/gi,'_');
+          const safeWA = (wa||'wa').replace(/[^a-z0-9\+]/gi,'');
+          const a = document.createElement('a');
+          a.href = img.src;
+          a.download = `QR_${safeName}_${safeWA}.png`;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+        }else{
+          // fallback: try to use canvas (some browsers render as canvas)
+          const canvas = qrcodeContainer.querySelector('canvas');
+          if(canvas){
+            const url = canvas.toDataURL('image/png');
+            const a = document.createElement('a'); a.href = url; a.download = `QR_${(name||'user')}_${(wa||'wa')}.png`; document.body.appendChild(a); a.click(); a.remove();
+          }
+        }
+      },300);
     }
   </script>
-
-  <!--
-    --- GOOGLE APPS SCRIPT (Server) ---
-    Cara deploy:
-      1. Buka script.google.com -> New project
-      2. Ganti nama sheetId & sheetName sesuai Google Sheet Anda.
-      3. Paste kode di bawah, klik Save -> Deploy -> New deployment -> pilih "Web app".
-      4. Untuk "Execute as" pilih: Me. Untuk "Who has access" pilih: Anyone (even anonymous) atau sesuai kebutuhan.
-      5. Copy URL web app dan masukkan ke konstanta WEBHOOK_URL di atas.
-
-    Kode Google Apps Script (JavaScript):
-  -->
-  <script type="text/plain" id="gapps">
-/**
- * Example Google Apps Script to receive JSON POST and append to Sheet starting at column B.
- * Replace SHEET_ID and SHEET_NAME.
- */
-function doPost(e){
-  try{
-    const SHEET_ID = '<<PASTE_YOUR_SHEET_ID_HERE>>';
-    const SHEET_NAME = 'Registration';
-    const ss = SpreadsheetApp.openById(SHEET_ID);
-    const sh = ss.getSheetByName(SHEET_NAME) || ss.getSheets()[0];
-
-    const data = JSON.parse(e.postData.contents);
-    // build row starting at column B (column index 2)
-    // Columns mapping (starting from B):
-    // B: nama, C: gender, D: tgllahir, E: whatsapp, F: email, G: alamat, H: joinSuryafluencers, I: ig, J: tiktok
-    const row = [
-      data.nama || '',
-      data.gender || '',
-      data.tgllahir || '',
-      data.whatsapp || '',
-      data.email || '',
-      data.alamat || '',
-      data.joinSuryafluencers || '',
-      data.ig || '',
-      data.tiktok || ''
-    ];
-
-    // find next empty row (we will append to the bottom)
-    const lastRow = Math.max(1, sh.getLastRow());
-    sh.getRange(lastRow + 1, 2, 1, row.length).setValues([row]);
-
-    return ContentService.createTextOutput(JSON.stringify({status:'ok'})).setMimeType(ContentService.MimeType.JSON);
-  }catch(err){
-    return ContentService.createTextOutput(JSON.stringify({status:'error', message:err.message})).setMimeType(ContentService.MimeType.JSON);
-  }
-}
-</script>
 
 </body>
 </html>
