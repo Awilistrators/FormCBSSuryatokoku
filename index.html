@@ -20,19 +20,18 @@ body {
   box-shadow: 0 12px 30px rgba(0,0,0,.18);
 }
 .header {
-  display: flex;
-  align-items: center;
-  padding: 16px;
+  text-align: center;
+  padding: 20px;
   background: #ffe3f0;
 }
-.header .logo {
-  width: 70px;
-  margin-right: 16px;
-}
+
 .header .banner {
   width: 100%;
-  max-height: 90px;
-  object-fit: contain;
+  max-width: 520px;
+  height: auto;
+  display: inline-block;
+}
+
 }
 .content { padding: 22px; }
 h2 {
@@ -92,7 +91,6 @@ button {
 
 <div class="box">
   <div class="header">
-    <img src="logo-suryatokoku.png" class="logo">
     <img src="header-event.png" class="banner">
   </div>
 
@@ -147,7 +145,7 @@ button {
 const form = document.getElementById("regForm");
 const loading = document.getElementById("loading");
 
-const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbznMdEy1G-1ZrN8U5gXDG4kg0NbFycZ1-sAYvWqb_5oLw4nolnvrYk-14HBQouEGkbuYA/exec";
+const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxqxS4JYOzVVj4XCgKWtO4nbaoAbJJm97wCcmqgylFElxeu3I3Dlvc2I1JC6CLnXr21/exec";
 const SUCCESS_URL = "https://awilistrators.github.io/Form-YES-Surtok2025/success.html";
 
 form.addEventListener("submit", function(e) {
@@ -183,3 +181,4 @@ suryaflu.addEventListener("change", () => {
 
 </body>
 </html>
+
