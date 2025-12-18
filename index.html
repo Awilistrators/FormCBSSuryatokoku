@@ -6,16 +6,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-
-  * { box-sizing: border-box; }
-
+* { box-sizing: border-box; }
 body {
   font-family: Arial, sans-serif;
   background: linear-gradient(135deg, #ff9acb, #ffc1dd);
   padding: 20px;
 }
-
-
 .box {
   max-width: 650px;
   background: #ffffff;
@@ -24,82 +20,28 @@ body {
   overflow: hidden;
   box-shadow: 0 12px 30px rgba(0,0,0,.18);
 }
-
 .header {
   text-align: center;
   padding: 20px;
   background: #ffe3f0;
 }
-
 .header .banner {
   width: 100%;
   max-width: 520px;
   height: auto;
   display: inline-block;
 }
-
 .content { padding: 22px; }
-
-h2 {
-  text-align: center;
-  color: #e91e63;
-  margin-bottom: 22px;
-}
-
-label {
-  font-weight: bold;
-  margin-top: 14px;
-  display: block;
-}
-
-input, select, textarea {
-  width: 100%;
-  padding: 11px;
-  margin-top: 6px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-}
-
+h2 { text-align: center; color: #e91e63; margin-bottom: 22px; }
+label { font-weight: bold; margin-top: 14px; display: block; }
+input, select, textarea { width: 100%; padding: 11px; margin-top: 6px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; }
 textarea { resize: vertical; }
-
-.desc {
-  font-size: 13px;
-  background: #fff0f7;
-  padding: 14px;
-  border-radius: 8px;
-  margin-top: 10px;
-  line-height: 1.6;
-}
-
-button {
-  width: 100%;
-  background: #e91e63;
-  color: #fff;
-  border: none;
-  padding: 15px;
-  margin-top: 26px;
-  font-size: 16px;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
+.desc { font-size: 13px; background: #fff0f7; padding: 14px; border-radius: 8px; margin-top: 10px; line-height: 1.6; }
+button { width: 100%; background: #e91e63; color: #fff; border: none; padding: 15px; margin-top: 26px; font-size: 16px; border-radius: 10px; cursor: pointer; }
 button:hover { background: #d81b60; }
-
 .hidden { display: none; }
-
-.loading {
-  position: fixed;
-  inset: 0;
-  background: rgba(255,255,255,.85);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  font-weight: bold;
-  color: #e91e63;
-  z-index: 999;
-}
+.loading { position: fixed; inset: 0; background: rgba(255,255,255,.85); display: none; align-items: center; justify-content: center; font-size: 18px; font-weight: bold; color: #e91e63; z-index: 999; }
+@media (max-width:480px){ body{padding:12px} .box{max-width:100%} }
 </style>
 </head>
 <body>
@@ -107,20 +49,16 @@ button:hover { background: #d81b60; }
 <div class="loading" id="loading">⏳ Mengirim data...</div>
 
 <div class="box">
-
-  <!-- HEADER -->
   <div class="header">
+    <!-- header-event centered and larger -->
     <img src="header-event.png" class="banner" alt="Header Event">
   </div>
 
-  <!-- CONTENT -->
   <div class="content">
     <h2>FORMULIR PENDAFTARAN</h2>
 
-    <form method="POST" 
-      action="https://script.google.com/macros/s/AKfycbzOfTNUKrjrPe_4-D45pjGMSmFPP3Y12bE2NuoilJjVuuo4MynT9ryGnDtsasKwXE_a/exec"
-      onsubmit="showLoading()">
-
+    <!-- IMPORTANT: NO action/method on form -->
+    <form id="regForm" autocomplete="on" novalidate>
       <label>Nama Lengkap</label>
       <input type="text" name="nama" required>
 
@@ -146,17 +84,7 @@ button:hover { background: #d81b60; }
       <label>Apakah kamu ingin bergabung ke komunitas @Suryafluencers?</label>
 
       <div class="desc">
-        <b>@Suryafluencers</b> adalah program Creator & Reviewer Suryatokoku bagi Content Creator yang ingin berkolaborasi melalui pembuatan konten, event/campaign, dan review produk.
-        <br><br>
-        <b>Keuntungan:</b>
-        <ul>
-          <li>Akses early info event & campaign</li>
-          <li>Extra Point Member Suryatokoku</li>
-          <li>Special Goodie Bag</li>
-          <li>Sampel produk gratis untuk review</li>
-          <li>Membangun personal branding sebagai KOL</li>
-        </ul>
-        <b>@Suryafluencers</b> bukan hanya tentang review, tapi kolaborasi jangka panjang & pertumbuhan creator.
+        <b>@Suryafluencers</b> adalah program Creator & Reviewer Suryatokoku...
       </div>
 
       <select name="suryaflu" id="suryaflu" required>
@@ -168,7 +96,6 @@ button:hover { background: #d81b60; }
       <div id="creatorForm" class="hidden">
         <label>Username Instagram</label>
         <input type="text" name="ig" id="ig">
-
         <label>Username TikTok</label>
         <input type="text" name="tt" id="tt">
       </div>
@@ -179,35 +106,72 @@ button:hover { background: #d81b60; }
 </div>
 
 <script>
-function showLoading() {
-  document.getElementById('loading').style.display = 'flex';
-}
+/* ---------- show/hide creator fields ---------- */
+(function(){
+  const suryaflu = document.getElementById('suryaflu');
+  const creatorForm = document.getElementById('creatorForm');
+  const ig = document.getElementById('ig');
+  const tt = document.getElementById('tt');
 
-const suryaflu = document.getElementById('suryaflu');
-const creatorForm = document.getElementById('creatorForm');
-const ig = document.getElementById('ig');
-const tt = document.getElementById('tt');
+  suryaflu.addEventListener('change', function () {
+    if (this.value === 'Ya') {
+      creatorForm.classList.remove('hidden');
+      ig.required = true;
+      tt.required = true;
+    } else {
+      creatorForm.classList.add('hidden');
+      ig.required = false;
+      tt.required = false;
+      ig.value = '';
+      tt.value = '';
+    }
+  });
+})();
 
-suryaflu.addEventListener('change', function () {
-  if (this.value === 'Ya') {
-    creatorForm.classList.remove('hidden');
-    ig.required = true;
-    tt.required = true;
-  } else {
-    creatorForm.classList.add('hidden');
-    ig.required = false;
-    tt.required = false;
-    ig.value = '';
-    tt.value = '';
-  }
-});
+/* ---------- submit with fetch, then redirect ---------- */
+(function(){
+  const form = document.getElementById('regForm');
+  const loading = document.getElementById('loading');
+
+  // <-- PASTE /exec URL web app yang terbaru DI SINI -->
+  const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxUnci9nIb10KevnCiS4BE5ZKyrn8ufIcOky_C7XDSkfyg02GH5JOZLfsnR440xcreciQ/exec";
+
+  // success page
+  const SUCCESS_URL = "https://awilistrators.github.io/Form-YES-Surtok2025/success.html";
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    loading.style.display = 'flex';
+
+    // optional front validation for WA
+    const wa = form.elements['wa'].value || '';
+    if (!/^08[0-9]{8,11}$/.test(wa)) {
+      alert('Nomor WhatsApp tidak valid (mulai 08...).');
+      loading.style.display = 'none';
+      return;
+    }
+
+    fetch(WEBAPP_URL, {
+      method: 'POST',
+      body: new FormData(form),
+      mode: 'cors'
+    })
+    .then(r => r.text())
+    .then(text => {
+      if (text && text.trim().toUpperCase() === 'OK') {
+        window.location.href = SUCCESS_URL;
+      } else {
+        throw new Error(text || 'Response not OK');
+      }
+    })
+    .catch(err => {
+      console.error('Submit error:', err);
+      alert('Gagal mengirim data. Coba lagi.');
+      loading.style.display = 'none';
+    });
+  });
+})();
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
