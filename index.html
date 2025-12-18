@@ -190,7 +190,13 @@ form.addEventListener("submit", function(e) {
   .then(r => r.text())
   .then(t => {
     if (t.trim() === "OK") {
-      window.location.href = SUCCESS_URL;
+      const nama = form.nama.value;
+      const wa = form.wa.value;
+
+      window.location.href =
+        SUCCESS_URL +
+        "?nama=" + encodeURIComponent(nama) +
+        "&wa=" + encodeURIComponent(wa);
     } else {
       throw t;
     }
@@ -202,6 +208,7 @@ form.addEventListener("submit", function(e) {
   });
 });
 
+
 const suryaflu = document.getElementById("suryaflu");
 const creatorForm = document.getElementById("creatorForm");
 
@@ -212,6 +219,7 @@ suryaflu.addEventListener("change", () => {
 
 </body>
 </html>
+
 
 
 
