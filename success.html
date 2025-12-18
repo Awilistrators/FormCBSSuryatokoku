@@ -1,102 +1,74 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Pendaftaran Berhasil</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<title>Pendaftaran Berhasil</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #ff9acb, #ffc1dd);
-    }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-    .card {
-      background: #ffffff;
-      max-width: 420px;
-      width: 90%;
-      padding: 30px 24px 36px;
-      border-radius: 18px;
-      box-shadow: 0 12px 30px rgba(0,0,0,.2);
-      text-align: center;
-      animation: fadeIn .6s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(12px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .check {
-      width: 90px;
-      height: 90px;
-      margin: 0 auto 18px;
-      border-radius: 50%;
-      background: #e91e63;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-size: 46px;
-    }
-
-    h1 {
-      color: #e91e63;
-      font-size: 24px;
-      margin-bottom: 10px;
-    }
-
-    p {
-      color: #555;
-      font-size: 14px;
-      line-height: 1.6;
-      margin-bottom: 24px;
-    }
-
-    .btn {
-      display: inline-block;
-      background: #e91e63;
-      color: #fff;
-      text-decoration: none;
-      padding: 14px 26px;
-      border-radius: 12px;
-      font-weight: bold;
-      transition: background .3s;
-    }
-
-    .btn:hover {
-      background: #d81b60;
-    }
-
-    .small {
-      margin-top: 16px;
-      font-size: 12px;
-      color: #777;
-    }
-  </style>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #ff9acb, #ffc1dd);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+.box {
+  background: #fff;
+  padding: 30px;
+  border-radius: 16px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 12px 30px rgba(0,0,0,.2);
+}
+h2 {
+  color: #e91e63;
+}
+.qr {
+  margin: 20px auto;
+}
+.info {
+  font-size: 14px;
+  margin-top: 10px;
+}
+</style>
 </head>
+
 <body>
 
-  <div class="card">
-    <div class="check">✓</div>
-    <h1>Pendaftaran Berhasil</h1>
-    <p>
-      Terima kasih telah melakukan pendaftaran.<br>
-      Data kamu sudah kami terima dan tercatat di sistem Suryatokoku.
-    </p>
+<div class="box">
+  <h2>Pendaftaran Berhasil 🎉</h2>
+  <p>Silakan simpan QR Code ini</p>
 
-    <a class="btn" href="index.html">Kembali ke Form</a>
+  <div id="qrcode" class="qr"></div>
 
-    <div class="small">
-      Ikuti info terbaru kami di Instagram<br>
-      <b>@suryatokoku</b>
-    </div>
-  </div>
+  <div class="info" id="info"></div>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const nama = params.get("nama") || "";
+const wa = params.get("wa") || "";
+
+// FORMAT QR: Nama<TAB>WA
+const qrText = nama + "\t" + wa;
+
+// Tampilkan info
+document.getElementById("info").innerHTML =
+  "<b>Nama:</b> " + nama + "<br><b>WhatsApp:</b> " + wa;
+
+// Generate QR
+new QRCode(document.getElementById("qrcode"), {
+  text: qrText,
+  width: 220,
+  height: 220
+});
+</script>
 
 </body>
 </html>
