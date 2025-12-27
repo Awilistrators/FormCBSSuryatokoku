@@ -135,7 +135,7 @@ button {
 </div>
 
 <script>
-const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbw3QY0L1ItQtfT4HTIjTga8OeQuy5T2zHXJVXMCsiTlYQpWNtdBHYHU1laQkbeaU98_jA/exec";
+const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzml8MuVxMB4Gu51iXdO5HauRdQey_vvqXOQC09Dj5DVQaUyW-lVuo_SARfU30zeGUG/exec";
 
 let lastData = {};
 let sudahScan = false;
@@ -174,22 +174,27 @@ let statusClass = "";
 let soundId = "";
 
 if (res.status === "BOLEH_DAPAT") {
-  statusText = "🎁 DAPAT FREEBIES";
+  statusText = "🎁 Dapat Freebies";
   statusClass = "ok";
   soundId = "sound-ok";
 } 
 else if (res.status === "SUDAH_PERNAH") {
-  statusText = "ℹ️ SUDAH PERNAH DAPAT FREEBIES";
+  const waktu = res.lastFreebiesDate
+    ? `<br><small>Di Tanggal: ${res.lastFreebiesDate}</small>`
+    : "";
+
+  statusText = `ℹ️ Sudah Pernah Dapat Freebies${waktu}`;
   statusClass = "info";
   soundId = "sound-info";
-} 
+}
+
 else if (res.status === "KUOTA_HABIS") {
-  statusText = "⛔ KUOTA FREEBIES HABIS";
+  statusText = "⛔ Kuota Freebies Habis";
   statusClass = "warn";
   soundId = "sound-no";
 } 
 else {
-  statusText = "❌ TIDAK DAPAT FREEBIES";
+  statusText = "❌ Tidak Dapat Freebies";
   statusClass = "no";
   soundId = "sound-no";
 }
@@ -211,9 +216,7 @@ document.getElementById(soundId)?.play();
         document.getElementById("popupText").innerText =
           "Customer ini memenuhi syarat mendapatkan freebies?";
         document.getElementById("popup").style.display = "flex";
-      } else if (res.popup === "INFO") {
-        document.getElementById("notif").innerHTML =
-  `<div class="notif info">ℹ️ Customer ini sudah pernah mendapatkan freebies</div>`;
+      } 
       }
     });
 }
@@ -251,6 +254,7 @@ function scanUlang() {
 
 </body>
 </html>
+
 
 
 
