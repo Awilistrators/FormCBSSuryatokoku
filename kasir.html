@@ -164,60 +164,59 @@ function prosesScan(nama, wa) {
   fd.append("nama", nama);
   fd.append("wa", wa);
 
-  fetch(WEBAPP_URL, { method: "POST", body: fd })
-    .then(r => r.json())
-    .then(res => {
-      lastData = res;
+fetch(WEBAPP_URL, { method: "POST", body: fd })
+  .then(r => r.json())
+  .then(res => {
+    lastData = res;
 
-let statusText = "";
-let statusClass = "";
-let soundId = "";
+    let statusText = "";
+    let statusClass = "";
+    let soundId = "";
 
-if (res.status === "BOLEH_DAPAT") {
-  statusText = "🎁 Dapat Freebies";
-  statusClass = "ok";
-  soundId = "sound-ok";
-} 
-else if (res.status === "SUDAH_PERNAH") {
-  const waktu = res.lastFreebiesDate
-    ? `<br><small>Di Tanggal: ${res.lastFreebiesDate}</small>`
-    : "";
+    if (res.status === "BOLEH_DAPAT") {
+      statusText = "🎁 Dapat Freebies";
+      statusClass = "ok";
+      soundId = "sound-ok";
+    } 
+    else if (res.status === "SUDAH_PERNAH") {
+      const waktu = res.lastFreebiesDate
+        ? `<br><small>Di Tanggal: ${res.lastFreebiesDate}</small>`
+        : "";
 
-  statusText = `ℹ️ Sudah Pernah Dapat Freebies${waktu}`;
-  statusClass = "info";
-  soundId = "sound-info";
-}
+      statusText = `ℹ️ Sudah Pernah Dapat Freebies${waktu}`;
+      statusClass = "info";
+      soundId = "sound-info";
+    }
+    else if (res.status === "KUOTA_HABIS") {
+      statusText = "⛔ Kuota Freebies Habis";
+      statusClass = "warn";
+      soundId = "sound-no";
+    } 
+    else {
+      statusText = "❌ Tidak Dapat Freebies";
+      statusClass = "no";
+      soundId = "sound-no";
+    }
 
-else if (res.status === "KUOTA_HABIS") {
-  statusText = "⛔ Kuota Freebies Habis";
-  statusClass = "warn";
-  soundId = "sound-no";
-} 
-else {
-  statusText = "❌ Tidak Dapat Freebies";
-  statusClass = "no";
-  soundId = "sound-no";
-}
+    document.getElementById("result").innerHTML = `
+      <div><b>Nama:</b> ${res.nama}</div>
+      <div><b>Kunjungan ke:</b> ${res.totalKunjungan}</div>
+      <div class="status ${statusClass}">
+        Status Freebies: ${statusText}
+      </div>
 
-document.getElementById("result").innerHTML = `
-  <div><b>Nama:</b> ${res.nama}</div>
-  <div><b>Kunjungan ke:</b> ${res.totalKunjungan}</div>
-  <div class="status ${statusClass}">
-    Status Freebies: ${statusText}
-  </div>
+      <button class="big-btn" onclick="scanUlang()">🔄 Scan Ulang</button>
+    `;
 
-  <button class="big-btn" onclick="scanUlang()">🔄 Scan Ulang</button>
-`;
+    document.getElementById(soundId)?.play();
 
-document.getElementById(soundId)?.play();
+    if (res.popup === "KONFIRMASI") {
+      document.getElementById("popupText").innerText =
+        "Customer ini memenuhi syarat mendapatkan freebies?";
+      document.getElementById("popup").style.display = "flex";
+    }
+  });
 
-
-      if (res.popup === "KONFIRMASI") {
-        document.getElementById("popupText").innerText =
-          "Customer ini memenuhi syarat mendapatkan freebies?";
-        document.getElementById("popup").style.display = "flex";
-      }
-    });
 
 function beriFreebies() {
   const fd = new FormData();
@@ -252,6 +251,7 @@ function scanUlang() {
 
 </body>
 </html>
+
 
 
 
