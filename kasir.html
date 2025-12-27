@@ -141,83 +141,87 @@ let lastData = {};
 let sudahScan = false;
 
 const qr = new Html5Qrcode("reader");
+
 qr.start(
   { facingMode: "environment" },
   { fps: 10, qrbox: 220 },
   text => {
-  if (sudahScan) return; // ⛔ hentikan scan kedua
-  sudahScan = true;
+    if (sudahScan) return;
+    sudahScan = true;
 
-  qr.stop();
+    qr.stop();
 
-  const parts = text.trim().split(/\s+/);
-  const wa = parts.pop();
-  const nama = parts.join(" ");
+    const parts = text.trim().split(/\s+/);
+    const wa = parts.pop();
+    const nama = parts.join(" ");
 
-  prosesScan(nama, wa);
-}
-
+    prosesScan(nama, wa);
+  }
 );
 
+// ===============================
+// PROSES SCAN
+// ===============================
 function prosesScan(nama, wa) {
   const fd = new FormData();
   fd.append("nama", nama);
   fd.append("wa", wa);
 
-fetch(WEBAPP_URL, { method: "POST", body: fd })
-  .then(r => r.json())
-  .then(res => {
-    lastData = res;
+  fetch(WEBAPP_URL, { method: "POST", body: fd })
+    .then(r => r.json())
+    .then(res => {
+      lastData = res;
 
-    let statusText = "";
-    let statusClass = "";
-    let soundId = "";
+      let statusText = "";
+      let statusClass = "";
+      let soundId = "";
 
-    if (res.status === "BOLEH_DAPAT") {
-      statusText = "🎁 Dapat Freebies";
-      statusClass = "ok";
-      soundId = "sound-ok";
-    } 
-    else if (res.status === "SUDAH_PERNAH") {
-      const waktu = res.lastFreebiesDate
-        ? `<br><small>Di Tanggal: ${res.lastFreebiesDate}</small>`
-        : "";
+      if (res.status === "BOLEH_DAPAT") {
+        statusText = "🎁 Dapat Freebies";
+        statusClass = "ok";
+        soundId = "sound-ok";
+      } 
+      else if (res.status === "SUDAH_PERNAH") {
+        const waktu = res.lastFreebiesDate
+          ? `<br><small>Di Tanggal: ${res.lastFreebiesDate}</small>`
+          : "";
+        statusText = `ℹ️ Sudah Pernah Dapat Freebies${waktu}`;
+        statusClass = "info";
+        soundId = "sound-info";
+      }
+      else if (res.status === "KUOTA_HABIS") {
+        statusText = "⛔ Kuota Freebies Habis";
+        statusClass = "warn";
+        soundId = "sound-no";
+      } 
+      else {
+        statusText = "❌ Tidak Dapat Freebies";
+        statusClass = "no";
+        soundId = "sound-no";
+      }
 
-      statusText = `ℹ️ Sudah Pernah Dapat Freebies${waktu}`;
-      statusClass = "info";
-      soundId = "sound-info";
-    }
-    else if (res.status === "KUOTA_HABIS") {
-      statusText = "⛔ Kuota Freebies Habis";
-      statusClass = "warn";
-      soundId = "sound-no";
-    } 
-    else {
-      statusText = "❌ Tidak Dapat Freebies";
-      statusClass = "no";
-      soundId = "sound-no";
-    }
+      document.getElementById("result").innerHTML = `
+        <div><b>Nama:</b> ${res.nama}</div>
+        <div><b>Kunjungan ke:</b> ${res.totalKunjungan}</div>
+        <div class="status ${statusClass}">
+          Status Freebies: ${statusText}
+        </div>
+        <button class="big-btn" onclick="scanUlang()">🔄 Scan Ulang</button>
+      `;
 
-    document.getElementById("result").innerHTML = `
-      <div><b>Nama:</b> ${res.nama}</div>
-      <div><b>Kunjungan ke:</b> ${res.totalKunjungan}</div>
-      <div class="status ${statusClass}">
-        Status Freebies: ${statusText}
-      </div>
+      document.getElementById(soundId)?.play();
 
-      <button class="big-btn" onclick="scanUlang()">🔄 Scan Ulang</button>
-    `;
+      if (res.popup === "KONFIRMASI") {
+        document.getElementById("popupText").innerText =
+          "Customer ini memenuhi syarat mendapatkan freebies?";
+        document.getElementById("popup").style.display = "flex";
+      }
+    });
+}
 
-    document.getElementById(soundId)?.play();
-
-    if (res.popup === "KONFIRMASI") {
-      document.getElementById("popupText").innerText =
-        "Customer ini memenuhi syarat mendapatkan freebies?";
-      document.getElementById("popup").style.display = "flex";
-    }
-  });
-
-
+// ===============================
+// ACTION BUTTON
+// ===============================
 function beriFreebies() {
   const fd = new FormData();
   fd.append("nama", lastData.nama);
@@ -226,10 +230,9 @@ function beriFreebies() {
   fetch(WEBAPP_URL + "?action=beriFreebies", {
     method: "POST",
     body: fd
-  })
-  .then(() => {
+  }).then(() => {
     document.getElementById("notif").innerHTML =
-  `<div class="notif ok">🎁 Freebies berhasil dicatat</div>`;
+      `<div class="notif ok">🎁 Freebies berhasil dicatat</div>`;
     tutupPopup();
   });
 }
@@ -242,8 +245,8 @@ function tutupPopup() {
 function scanUlang() {
   location.reload();
 }
-
 </script>
+
 
 <audio id="sound-ok" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
 <audio id="sound-info" src="https://actions.google.com/sounds/v1/cartoon/pop.ogg"></audio>
@@ -251,6 +254,7 @@ function scanUlang() {
 
 </body>
 </html>
+
 
 
 
