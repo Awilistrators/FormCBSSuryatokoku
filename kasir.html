@@ -132,9 +132,7 @@ button {
 
   <div id="reader"></div>
 
-  <div id="result"></div>
-<div id="quota"></div>
-  
+  <div id="result"></div>  
 
   <div id="notif"></div>
 </div>
@@ -222,14 +220,6 @@ function prosesScan(nama, wa) {
         <button class="big-btn" onclick="scanUlang()">🔄 Scan Ulang</button>
       `;
 
-      const sisa = Math.max(0, 100 - (res.freebiesHariIni || 0));
-
-document.getElementById("quota").innerHTML = `
-  <div class="quota">
-    🎁 Sisa freebies hari ini: ${sisa}
-  </div>
-`;
-
       document.getElementById(soundId)?.play();
 
       if (res.popup === "KONFIRMASI") {
@@ -300,6 +290,7 @@ function scanUlang() {
 
 </body>
 </html>
+
 
 
 
