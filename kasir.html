@@ -251,12 +251,30 @@ function beriFreebies() {
   fetch(WEBAPP_URL + "?action=beriFreebies", {
     method: "POST",
     body: fd
-  }).then(() => {
+  })
+  .then(() => {
+    // Tutup popup TANPA reload
+    document.getElementById("popup").style.display = "none";
+
+    // Update status di layar
+    document.getElementById("result").innerHTML = `
+      <div><b>Nama:</b> ${lastData.nama}</div>
+      <div><b>Kunjungan ke:</b> ${lastData.totalKunjungan}</div>
+      <div class="status ok">
+        🎁 Freebies Berhasil Diberikan
+      </div>
+
+      <button class="big-btn" onclick="scanUlang()">🔄 Scan Ulang</button>
+    `;
+
     document.getElementById("notif").innerHTML =
-      `<div class="notif ok">🎁 Freebies berhasil dicatat</div>`;
-    tutupPopup();
+      `<div class="notif ok">🎉 Freebies berhasil dicatat</div>`;
+
+    // Kamera tetap mati
+    sudahScan = true;
   });
 }
+
 
 function tutupPopup() {
   document.getElementById("popup").style.display = "none";
@@ -275,6 +293,7 @@ function scanUlang() {
 
 </body>
 </html>
+
 
 
 
