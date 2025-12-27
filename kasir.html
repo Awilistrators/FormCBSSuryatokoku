@@ -133,8 +133,6 @@ button {
   <div id="reader"></div>
 
   <div id="result"></div>
-  <div id="quota"></div>
-
 
   <div id="notif"></div>
 </div>
@@ -253,27 +251,34 @@ function beriFreebies() {
     body: fd
   })
   .then(() => {
-    // Tutup popup TANPA reload
+    // Tutup popup
     document.getElementById("popup").style.display = "none";
 
-    // Update status di layar
+    // Hitung ulang sisa freebies (dikurangi 1)
+    const sisa = Math.max(0, 100 - ((lastData.freebiesHariIni || 0) + 1));
+
+    // Update tampilan hasil (URUTAN SUDAH BENAR)
     document.getElementById("result").innerHTML = `
       <div><b>Nama:</b> ${lastData.nama}</div>
       <div><b>Kunjungan ke:</b> ${lastData.totalKunjungan}</div>
+
       <div class="status ok">
-        🎁 Freebies Berhasil Diberikan
+        🎁 FREEBIES DIBERIKAN
+      </div>
+
+      <div class="quota">
+        🎁 Sisa freebies hari ini: ${sisa}
       </div>
 
       <button class="big-btn" onclick="scanUlang()">🔄 Scan Ulang</button>
     `;
 
-    document.getElementById("notif").innerHTML =
-      `<div class="notif ok">🎉 Freebies berhasil dicatat</div>`;
-
-    // Kamera tetap mati
+    // Kunci scan
     sudahScan = true;
   });
 }
+
+
 
 
 function tutupPopup() {
@@ -293,6 +298,7 @@ function scanUlang() {
 
 </body>
 </html>
+
 
 
 
