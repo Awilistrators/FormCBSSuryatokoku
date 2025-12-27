@@ -93,6 +93,24 @@ button {
   border-radius: 10px;
 }
 
+  .notif {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.notif.ok {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.notif.info {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
 </style>
 </head>
 
@@ -104,6 +122,8 @@ button {
   <div id="reader"></div>
 
   <div id="result"></div>
+
+  <div id="notif"></div>
 </div>
 
 <div class="popup" id="popup">
@@ -192,7 +212,8 @@ document.getElementById(soundId)?.play();
           "Customer ini memenuhi syarat mendapatkan freebies?";
         document.getElementById("popup").style.display = "flex";
       } else if (res.popup === "INFO") {
-        alert("Customer ini sudah pernah mendapatkan freebies");
+        document.getElementById("notif").innerHTML =
+  `<div class="notif info">ℹ️ Customer ini sudah pernah mendapatkan freebies</div>`;
       }
     });
 }
@@ -207,7 +228,8 @@ function beriFreebies() {
     body: fd
   })
   .then(() => {
-    alert("Freebies berhasil dicatat");
+    document.getElementById("notif").innerHTML =
+  `<div class="notif ok">🎁 Freebies berhasil dicatat</div>`;
     tutupPopup();
   });
 }
@@ -229,6 +251,7 @@ function scanUlang() {
 
 </body>
 </html>
+
 
 
 
