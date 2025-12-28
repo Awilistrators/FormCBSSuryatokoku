@@ -136,6 +136,36 @@ button {
   width: 100%;
   height: auto;
 }
+/* ===============================
+   TOMBOL POPUP KONFIRMASI
+=============================== */
+.popup-box button {
+  font-size: 16px;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+/* YA = HIJAU */
+.btn-yes {
+  background: #4caf50;
+  color: #fff;
+}
+
+.btn-yes:hover {
+  background: #43a047;
+}
+
+/* TIDAK = MERAH */
+.btn-no {
+  background: #e53935;
+  color: #fff;
+}
+
+.btn-no:hover {
+  background: #d32f2f;
+}
 
 </style>
 </head>
@@ -158,12 +188,10 @@ button {
   <div id="notif"></div>
 </div>
 
-<div class="popup" id="popup">
-  <div class="popup-box">
-    <p id="popupText"></p>
-    <button onclick="beriFreebies()">YA</button>
-    <button onclick="tolakFreebies()">TIDAK</button>
-  </div>
+<div class="popup-box">
+  <p id="popupText"></p>
+  <button class="btn-yes" onclick="beriFreebies()">YA</button>
+  <button class="btn-no" onclick="tolakFreebies()">TIDAK</button>
 </div>
 
 <script>
@@ -352,6 +380,7 @@ function scanUlang() {
 
 </body>
 </html>
+
 
 
 
