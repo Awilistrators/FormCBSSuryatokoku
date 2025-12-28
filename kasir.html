@@ -216,13 +216,22 @@ function prosesScan(nama, wa) {
       }
 
       document.getElementById("result").innerHTML = `
-        <div><b>Nama:</b> ${res.nama}</div>
-        <div><b>Kunjungan ke:</b> ${res.totalKunjungan}</div>
-        <div class="status ${statusClass}">
-          Status Freebies: ${statusText}
-        </div>
-        <button class="big-btn" onclick="scanUlang()">Scan Customer Berikutnya</button>
-      `;
+  <div><b>Nama :</b> ${res.nama}</div>
+  <div><b>No. WA :</b> ${res.wa}</div>
+  <div><b>Kunjungan ke :</b> ${res.totalKunjungan}</div>
+
+  <hr style="margin:10px 0">
+
+  <div><b>Jumlah Customer Hari Ini :</b> ${res.jumlahCustomerHariIni ?? "-"}</div>
+
+  <div class="status ${statusClass}">
+    ${statusText}
+  </div>
+
+  <button class="big-btn" onclick="scanUlang()">
+    Scan Customer Berikutnya
+  </button>
+`;
 
       document.getElementById(soundId)?.play();
 
@@ -253,22 +262,29 @@ function beriFreebies() {
     // Hitung ulang sisa freebies (dikurangi 1)
     const sisa = Math.max(0, 100 - ((lastData.freebiesHariIni || 0) + 1));
 
-    // Update tampilan hasil (URUTAN SUDAH BENAR)
-    document.getElementById("result").innerHTML = `
-      <div><b>Nama:</b> ${lastData.nama}</div>
-      <div><b>Kunjungan ke:</b> ${lastData.totalKunjungan}</div>
+    // Update tampilan hasil (SETELAH FREEBIES DIBERIKAN)
+document.getElementById("result").innerHTML = `
+  <div><b>Nama :</b> ${lastData.nama}</div>
+  <div><b>No. WA :</b> ${lastData.wa}</div>
+  <div><b>Kunjungan ke :</b> ${lastData.totalKunjungan}</div>
 
-      <div class="status ok center">
-  🎁 Freebies Diberikan
-</div>
+  <hr style="margin:10px 0">
 
+  <div><b>Jumlah Customer Hari Ini :</b> ${lastData.jumlahCustomerHariIni ?? "-"}</div>
 
-      <div class="quota">
-        🎁 Sisa freebies hari ini: ${sisa}
-      </div>
+  <div class="status ok center">
+    🎁 FREEBIES DIBERIKAN
+  </div>
 
-      <button class="big-btn" onclick="scanUlang()">Scan Customer Berikutnya</button>
-    `;
+  <div class="quota">
+    🎁 Sisa freebies hari ini: ${sisa}
+  </div>
+
+  <button class="big-btn" onclick="scanUlang()">
+    Scan Customer Berikutnya
+  </button>
+`;
+
 
     // Kunci scan
     sudahScan = true;
@@ -295,6 +311,7 @@ function scanUlang() {
 
 </body>
 </html>
+
 
 
 
