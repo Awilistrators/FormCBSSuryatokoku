@@ -34,11 +34,38 @@ button {
   border-radius: 8px;
   font-size: 16px;
   margin-top: 12px;
+  cursor: pointer;
 }
 #result {
   margin-top: 16px;
   font-size: 14px;
 }
+
+.header-logo {
+  text-align: center;
+  margin-bottom: 12px;
+}
+.header-logo img {
+  max-width: 300px;
+  width: 100%;
+  height: auto;
+}
+
+/* STATUS */
+.status {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+}
+.status.ok { background:#e8f5e9; color:#2e7d32; }
+.status.info { background:#e3f2fd; color:#1565c0; }
+.status.no { background:#ffebee; color:#c62828; }
+.status.warn { background:#fff8e1; color:#f57f17; }
+
+/* POPUP */
 .popup {
   position: fixed;
   inset: 0;
@@ -54,97 +81,34 @@ button {
   max-width: 320px;
   text-align: center;
 }
-.popup-box button {
-  width: 48%;
-}
-
-  .status {
-  font-size: 18px;
-  font-weight: bold;
-  margin-top: 8px;
-  padding: 10px;
-  border-radius: 8px;
-}
-
-.status.ok {
-  background: #e8f5e9;
-  color: #2e7d32;
-}
-
-.status.info {
-  background: #e3f2fd;
-  color: #1565c0;
-}
-
-.status.no {
-  background: #ffebee;
-  color: #c62828;
-}
-
-.status.warn {
-  background: #fff8e1;
-  color: #f57f17;
-}
-
-.status.center {
-  text-align: center;
-}
-
-.big-btn {
-  font-size: 18px;
-  padding: 16px;
+.popup-actions {
+  display: flex;
+  gap: 10px;
   margin-top: 14px;
-  border-radius: 10px;
 }
-
-  .notif {
-  margin-top: 12px;
-  padding: 12px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.notif.ok {
-  background: #e8f5e9;
-  color: #2e7d32;
-}
-
-.notif.info {
-  background: #e3f2fd;
-  color: #1565c0;
-}
-
-.quota {
-  margin-top: 10px;
-  padding: 10px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: bold;
-  background: #fff3e0;
-  color: #e65100;
-  text-align: center;
-}
-
-  .header-logo {
-  text-align: center;
-  margin-bottom: 12px;
-}
-
-.header-logo img {
-  max-width: 300px; /* atur ukuran di sini */
+.popup-actions button {
   width: 100%;
-  height: auto;
 }
 
+/* TOMBOL POPUP */
+.btn-yes {
+  background: #4caf50;
+}
+.btn-yes:hover {
+  background: #43a047;
+}
+.btn-no {
+  background: #e53935;
+}
+.btn-no:hover {
+  background: #d32f2f;
+}
 </style>
 </head>
 
 <body>
 
 <div class="box">
-
-  <!-- LOGO / HEADER -->
   <div class="header-logo">
     <img src="newheader-event.png" alt="Header Event">
   </div>
@@ -152,16 +116,18 @@ button {
   <h2>📷 Scan QR Customer</h2>
 
   <div id="reader"></div>
-
-  <div id="result"></div>  
-
-  <div id="notif"></div>
+  <div id="result"></div>
 </div>
 
-<div class="popup-box">
-  <p id="popupText"></p>
-  <button onclick="beriFreebies()">YA</button>
-  <button onclick="tolakFreebies()">TIDAK</button>
+<!-- POPUP -->
+<div class="popup" id="popup">
+  <div class="popup-box">
+    <p id="popupText"></p>
+    <div class="popup-actions">
+      <button class="btn-yes" onclick="beriFreebies()">YA</button>
+      <button class="btn-no" onclick="tolakFreebies()">TIDAK</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -170,24 +136,25 @@ const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzpTWQwrtj7CE6-oXVxl
 let lastData = {};
 let sudahScan = false;
 
+// START CAMERA
 const qr = new Html5Qrcode("reader");
-
 qr.start(
   { facingMode: "environment" },
   { fps: 10, qrbox: 220 },
-  text => {
-    if (sudahScan) return;
-    sudahScan = true;
-
-    qr.stop();
-
-    const parts = text.trim().split(/\s+/);
-    const wa = parts.pop();
-    const nama = parts.join(" ");
-
-    prosesScan(nama, wa);
-  }
+  onScanSuccess
 );
+
+function onScanSuccess(text) {
+  if (sudahScan) return;
+  sudahScan = true;
+  qr.stop();
+
+  const parts = text.trim().split(/\s+/);
+  const wa = parts.pop();
+  const nama = parts.join(" ");
+
+  prosesScan(nama, wa);
+}
 
 // ===============================
 // PROSES SCAN
@@ -197,58 +164,34 @@ function prosesScan(nama, wa) {
   fd.append("nama", nama);
   fd.append("wa", wa);
 
-  fetch(WEBAPP_URL, { method: "POST", body: fd })
+  fetch(WEBAPP_URL, { method:"POST", body: fd })
     .then(r => r.json())
     .then(res => {
       lastData = res;
 
-      let statusText = "";
-      let statusClass = "";
-      let soundId = "";
+      let statusHTML = "";
 
       if (res.status === "BOLEH_DAPAT") {
-        statusText = "🎁 Dapat Freebies";
-        statusClass = "ok";
-        soundId = "sound-ok";
-      } 
+        statusHTML = `<div class="status ok">🎁 Dapat Freebies</div>`;
+      }
       else if (res.status === "SUDAH_PERNAH") {
-        const waktu = res.lastFreebiesDate
-          ? `<br><small>Di Tanggal: ${res.lastFreebiesDate}</small>`
-          : "";
-        statusText = `ℹ️ Sudah Pernah Dapat Freebies${waktu}`;
-        statusClass = "info";
-        soundId = "sound-info";
+        statusHTML = `<div class="status info">ℹ️ Sudah Pernah Dapat Freebies</div>`;
       }
       else if (res.status === "KUOTA_HABIS") {
-        statusText = "⛔ Kuota Freebies Habis";
-        statusClass = "warn";
-        soundId = "sound-no";
-      } 
+        statusHTML = `<div class="status warn">⛔ Kuota Freebies Habis</div>`;
+      }
       else {
-        statusText = "❌ Tidak Dapat Freebies";
-        statusClass = "no";
-        soundId = "sound-no";
+        statusHTML = `<div class="status no">❌ Tidak Dapat Freebies</div>`;
       }
 
       document.getElementById("result").innerHTML = `
-  <div><b>Nama :</b> ${res.nama}</div>
-  <div><b>No. WA :</b> ${res.wa}</div>
-  <div><b>Kunjungan ke :</b> ${res.totalKunjungan}</div>
-
-  <hr style="margin:10px 0">
-
-  <div><b>Jumlah Customer Hari Ini :</b> ${res.jumlahCustomerHariIni ?? "-"}</div>
-
-  <div class="status ${statusClass}">
-    ${statusText}
-  </div>
-
-  <button class="big-btn" onclick="scanUlang()">
-    Scan Customer Berikutnya
-  </button>
-`;
-
-      document.getElementById(soundId)?.play();
+        <div><b>Nama :</b> ${res.nama}</div>
+        <div><b>No. WA :</b> ${res.wa}</div>
+        <div><b>Kunjungan ke :</b> ${res.totalKunjungan}</div>
+        <hr>
+        ${statusHTML}
+        <button onclick="scanUlang()">Scan Customer Berikutnya</button>
+      `;
 
       if (res.popup === "KONFIRMASI") {
         document.getElementById("popupText").innerText =
@@ -259,7 +202,7 @@ function prosesScan(nama, wa) {
 }
 
 // ===============================
-// ACTION BUTTON
+// POPUP ACTION
 // ===============================
 function beriFreebies() {
   const fd = new FormData();
@@ -267,115 +210,27 @@ function beriFreebies() {
   fd.append("wa", lastData.wa);
 
   fetch(WEBAPP_URL + "?action=beriFreebies", {
-    method: "POST",
+    method:"POST",
     body: fd
-  })
-  .then(() => {
-    // Tutup popup
+  }).then(() => {
     document.getElementById("popup").style.display = "none";
-
-    // Hitung ulang sisa freebies (dikurangi 1)
-    const sisa = Math.max(0, 100 - ((lastData.freebiesHariIni || 0) + 1));
-
-  
-
-    // Update tampilan hasil (SETELAH FREEBIES DIBERIKAN)
-document.getElementById("result").innerHTML = `
-  <div><b>Nama :</b> ${lastData.nama}</div>
-  <div><b>No. WA :</b> ${lastData.wa}</div>
-  <div><b>Kunjungan ke :</b> ${lastData.totalKunjungan}</div>
-
-  <hr style="margin:10px 0">
-
-  <div><b>Jumlah Customer Hari Ini :</b> ${lastData.jumlahCustomerHariIni ?? "-"}</div>
-
-  <div class="status ok center">
-    🎁 FREEBIES DIBERIKAN
-  </div>
-
-  <div class="quota">
-    🎁 Sisa freebies hari ini: ${sisa}
-  </div>
-
-  <button class="big-btn" onclick="scanUlang()">
-    Scan Customer Berikutnya
-  </button>
-`;
-
-
-    // Kunci scan
-    sudahScan = true;
+    document.getElementById("result").innerHTML += `
+      <div class="status ok">🎁 FREEBIES DIBERIKAN</div>
+    `;
   });
 }
 
 function tolakFreebies() {
-  // Tutup popup saja
   document.getElementById("popup").style.display = "none";
-
-  // Tampilkan info (TIDAK reload, TIDAK scan ulang)
-  document.getElementById("result").innerHTML = `
-    <div><b>Nama :</b> ${lastData.nama}</div>
-    <div><b>No. WA :</b> ${lastData.wa}</div>
-    <div><b>Kunjungan ke :</b> ${lastData.totalKunjungan}</div>
-
-    <hr style="margin:10px 0">
-
-    <div><b>Jumlah Customer Hari Ini :</b> ${lastData.jumlahCustomerHariIni ?? "-"}</div>
-
-    <div class="status no center">
-      ❌ FREEBIES TIDAK DIBERIKAN
-    </div>
-
-    <button class="big-btn" onclick="scanUlang()">
-      Scan Customer Berikutnya
-    </button>
+  document.getElementById("result").innerHTML += `
+    <div class="status no">❌ FREEBIES TIDAK DIBERIKAN</div>
   `;
 }
-
-
-function tutupPopup() {
-  document.getElementById("popup").style.display = "none";
-}
-
 
 function scanUlang() {
   location.reload();
 }
 </script>
 
-
-<audio id="sound-ok" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
-<audio id="sound-info" src="https://actions.google.com/sounds/v1/cartoon/pop.ogg"></audio>
-<audio id="sound-no" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
-
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
