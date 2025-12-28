@@ -126,12 +126,29 @@ button {
   text-align: center;
 }
 
+  .header-logo {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.header-logo img {
+  max-width: 220px; /* atur ukuran di sini */
+  width: 100%;
+  height: auto;
+}
+
 </style>
 </head>
 
 <body>
 
 <div class="box">
+
+  <!-- LOGO / HEADER -->
+  <div class="header-logo">
+    <img src="header-event.png" alt="Header Event">
+  </div>
+
   <h2>📷 Scan QR Customer</h2>
 
   <div id="reader"></div>
@@ -335,6 +352,7 @@ function scanUlang() {
 
 </body>
 </html>
+
 
 
 
