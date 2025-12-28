@@ -86,6 +86,10 @@ button {
   color: #f57f17;
 }
 
+.status.center {
+  text-align: center;
+}
+
 .big-btn {
   font-size: 18px;
   padding: 16px;
@@ -217,7 +221,7 @@ function prosesScan(nama, wa) {
         <div class="status ${statusClass}">
           Status Freebies: ${statusText}
         </div>
-        <button class="big-btn" onclick="scanUlang()">🔄 Scan Ulang</button>
+        <button class="big-btn" onclick="scanUlang()">Scan Customer Berikutnya</button>
       `;
 
       document.getElementById(soundId)?.play();
@@ -254,15 +258,16 @@ function beriFreebies() {
       <div><b>Nama:</b> ${lastData.nama}</div>
       <div><b>Kunjungan ke:</b> ${lastData.totalKunjungan}</div>
 
-      <div class="status ok">
-        🎁 FREEBIES DIBERIKAN
-      </div>
+      <div class="status ok center">
+  🎁 Freebies Diberikan
+</div>
+
 
       <div class="quota">
         🎁 Sisa freebies hari ini: ${sisa}
       </div>
 
-      <button class="big-btn" onclick="scanUlang()">🔄 Scan Ulang</button>
+      <button class="big-btn" onclick="scanUlang()">Scan Customer Berikutnya</button>
     `;
 
     // Kunci scan
@@ -290,6 +295,7 @@ function scanUlang() {
 
 </body>
 </html>
+
 
 
 
